@@ -38,7 +38,7 @@ client.on("message", async (msg) => {
     try {
         console.log("Nomor cocok! Lagi mikir jawabannya...");
         
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         
         // Coba tanpa systemInstruction dulu biar enteng
         const result = await model.generateContent(msg.body);
