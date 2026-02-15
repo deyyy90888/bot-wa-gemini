@@ -1,9 +1,7 @@
-
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// Ganti API Key di bawah kalau punya yang baru
 const genAI = new GoogleGenerativeAI("AIzaSyAabdAvyNhL3TS2OzHmwCsUEM--sSmNHd8");
 
 const client = new Client({
@@ -23,21 +21,34 @@ client.on("ready", () => {
 });
 
 client.on("message", async (msg) => {
+    // LOG UNTUK DEBUG (Cek di terminal pas kamu nge-chat)
+    console.log(`Ada chat masuk dari: ${msg.from}`);
+    console.log(`Isi Chat: ${msg.body}`);
+
     const nomorPacar = "6285357899766@c.us";
     const nomorPribadi = "62895604918490@c.us";
     const daftarVip = [nomorPacar, nomorPribadi];
 
-    if (!daftarVip.includes(msg.from)) return;
+    // Jika yang nge-chat bukan nomor VIP, abaikan
+    if (!daftarVip.includes(msg.from)) {
+        console.log("Nomor bukan VIP, dicuekin.");
+        return;
+    }
 
     try {
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash",
-            systemInstruction: msg.from === nomorPacar ? "Panggil Sayang, romantis." : "Panggil Bos, singkat."
-        });
+        console.log("Nomor cocok! Lagi mikir jawabannya...");
+        
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        
+        // Coba tanpa systemInstruction dulu biar enteng
         const result = await model.generateContent(msg.body);
-        await msg.reply(result.response.text());
+        const jawaban = result.response.text();
+
+        await msg.reply(jawaban);
+        console.log("Jawaban terkirim!");
     } catch (err) {
-        console.error("Error Gemini:", err);
+        console.log("Error nih bro, cek:");
+        console.error(err);
     }
 });
 
