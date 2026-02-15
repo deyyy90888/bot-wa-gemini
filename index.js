@@ -2,7 +2,7 @@ const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI("AIzaSyAabdAvyNhL3TS2OzHmwCsUEM--sSmNHd8");
+const genAI = new GoogleGenerativeAI("AIzaSyDaQUjV_o4q8Poyl8l1tjlyTKYVfCbZ7Ek");
 
 const client = new Client({
     authStrategy: new LocalAuth(),
